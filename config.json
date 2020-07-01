@@ -1,0 +1,8 @@
+
+{
+  "channel": "channel1",
+  "cc":"mycc",
+  "userName": "User1@org1.example.com",
+  "ccpPath": "../fabric-samples/hsc-first-network/connection-org1.json",
+  "walletPath": "./wallet"
+}
