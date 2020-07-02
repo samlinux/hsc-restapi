@@ -14,26 +14,34 @@ const fixtures = path.resolve(__dirname, '../../fabric-samples/hsc-first-network
 // A wallet stores a collection of identities
 const wallet = new FileSystemWallet('../wallet');
 
+// config
+let config = {
+  pathToUser:'/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com',
+  pathToUserSignCert: '/msp/signcerts/User1@org1.example.com-cert.pem',
+  pathToUserPrivKey: '/msp/keystore/50e3884c17bd8f9ce334fc2c25b36c9332d70de8a47a8abcb8619d6ed79225ff_sk',
+  identityLabel: 'User1@org1.example.com'
+}
+
 async function main() {
 
-    // Main try/catch block
-    try {
+  // Main try/catch block
+  try {
 
-        // Identity to credentials to be stored in the wallet
-        const credPath = path.join(fixtures, '/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com');
-        const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/User1@org1.example.com-cert.pem')).toString();
-        const key = fs.readFileSync(path.join(credPath, '/msp/keystore/50e3884c17bd8f9ce334fc2c25b36c9332d70de8a47a8abcb8619d6ed79225ff_sk')).toString();
+    // Identity to credentials to be stored in the wallet
+    const credPath = path.join(fixtures, config.pathToUser);
+    const cert = fs.readFileSync(path.join(credPath, config.pathToUserSignCert)).toString();
+    const key = fs.readFileSync(path.join(credPath, config.pathToUserPrivKey)).toString();
 
-        // Load credentials into wallet
-        const identityLabel = 'User1@org1.example.com';
-        const identity = X509WalletMixin.createIdentity('Org1MSP', cert, key);
+    // Load credentials into wallet
+    const identityLabel = config.identityLabel;
+    const identity = X509WalletMixin.createIdentity('Org1MSP', cert, key);
 
-        await wallet.import(identityLabel, identity);
+    await wallet.import(identityLabel, identity);
 
-    } catch (error) {
-        console.log(`Error adding to wallet. ${error}`);
-        console.log(error.stack);
-    }
+  } catch (error) {
+    console.log(`Error adding to wallet. ${error}`);
+    console.log(error.stack);
+  }
 }
 
 main().then(() => {

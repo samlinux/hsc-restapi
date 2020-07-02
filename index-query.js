@@ -11,7 +11,11 @@ module.exports = async function (req, contract) {
   queryKey = queryKey.toLowerCase();
 
   try {
-    // Evaluate the specified transaction.
+    
+    /*
+    Evaluate the specified transaction.
+    Evaluate a transaction function and return its results. The transaction function name will be evaluated on the endorsing peers but the responses will not be sent to the ordering service and hence will not be committed to the ledger. This is used for querying the world state. 
+    */
     let result = await contract.evaluateTransaction('query',queryKey);
     
     // Construct the finale return object.
